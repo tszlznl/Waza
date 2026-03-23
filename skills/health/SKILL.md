@@ -168,34 +168,6 @@ for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   done
 done
 
-echo "=== SKILL SECURITY SCAN ==="
-for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
-  [ -d "$DIR" ] || continue
-  find -L "$DIR" -name "SKILL.md" 2>/dev/null | grep -v "$SELF_SKILL" | while IFS= read -r f; do
-    echo "--- SCANNING: $f ---"
-    # Split dangerous literals to avoid false positives in static security scanners
-    _ev='eva''l'; _b64='base6''4'; _rmrf='rm\s+-rf'; _net='cu''rl|wget'
-    # Prompt injection
-    grep -inE 'ignore (previous|above|all) (instructions|prompts|rules)' "$f" && echo "[!] PROMPT_INJECTION: $f"
-    grep -inE '(you are now|pretend you are|act as if|new persona)' "$f" && echo "[!] ROLE_HIJACK: $f"
-    # Data exfiltration
-    grep -inE "(${_net}).+(-X\s*POST|--data|-d\s).+https?://" "$f" && echo "[!] DATA_EXFIL: $f"
-    grep -inE "${_b64}"'.*encode.*(secret|key|token)' "$f" && echo "[!] DATA_EXFIL_B64: $f"
-    # Destructive commands
-    grep -nE "${_rmrf}"'\s+[/~]' "$f" && echo "[!] DESTRUCTIVE: $f"
-    grep -nE 'git push --force\s+origin\s+main' "$f" && echo "[!] DESTRUCTIVE_GIT: $f"
-    grep -nE 'chmod\s+777' "$f" && echo "[!] DESTRUCTIVE_PERM: $f"
-    # Hardcoded credentials
-    grep -nE '(api_key|secret_key|api_secret|access_token)\s*[:=]\s*["'"'"'][A-Za-z0-9+/]{16,}' "$f" && echo "[!] HARDCODED_CRED: $f"
-    # Obfuscation
-    grep -nE "${_ev}"'\s*\$\(' "$f" && echo "[!] OBFUSCATION_EVAL: $f"
-    grep -nE "${_b64}"'\s+-d' "$f" && echo "[!] OBFUSCATION_B64: $f"
-    grep -nE '\\x[0-9a-fA-F]{2}' "$f" && echo "[!] OBFUSCATION_HEX: $f"
-    # Safety override
-    grep -inE '(override|bypass|disable)\s*(the\s+)?(safety|rules?|hooks?|guard|verification)' "$f" && echo "[!] SAFETY_OVERRIDE: $f"
-  done
-done
-
 echo "=== SKILL FRONTMATTER ==="
 for DIR in "$P/.claude/skills" "$HOME/.claude/skills"; do
   [ -d "$DIR" ] || continue
@@ -245,9 +217,6 @@ Before interpreting Step 1 output, check these known failure modes.
 
 **MEMORY.md path construction**
 - Path built with `sed 's|[/_]|-|g'` on `pwd`. Unusual characters produce the wrong project key. If MEMORY.md shows `(none)` but the user mentions prior sessions, verify the path manually before flagging as [!].
-
-**Skill self-exclusion**
-- Security scan excludes the health skill by frontmatter name. If installed with a non-default name, `SELF_SKILL` may be empty and the scan will include this skill's content, producing false positives for patterns like `base64 -d`.
 
 **Conversation extract scope**
 - Only the 3 most recent `.jsonl` files are sampled, skipping the active session. Findings from fewer than 3 files carry low signal -- always tag [LOW CONFIDENCE].
