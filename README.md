@@ -16,7 +16,7 @@ Waza (技) is a Japanese martial arts term for technique: a move practiced until
 
 A good engineer does not just write code. They think through requirements, review their own work, debug systematically, design interfaces that feel intentional, and read primary sources. They write clearly, and learn new domains by producing output, not consuming content.
 
-<img src="https://gw.alipayobjects.com/zos/k/qn/waza_concept_v3.svg" width="800" />
+<img src="https://gw.alipayobjects.com/zos/k/qa/waza_repaired_v4.svg" width="800" />
 
 
 ## Skills
