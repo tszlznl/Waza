@@ -36,6 +36,10 @@ Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/
 
 Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures. See Anthropic's [skill best practices](https://x.com/trq212/status/2033949937936085378) for the philosophy behind this structure.
 
+## Extras
+
+Two features that ship with Waza but live outside the skill system. Easy to miss, worth knowing about.
+
 ## Statusline
 
 A minimal Claude Code statusline that shows only what matters: context window usage, 5-hour quota, and 7-day quota, each with the time remaining until reset.
