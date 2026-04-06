@@ -92,6 +92,8 @@ Real failures from prior sessions, in order of frequency:
 - **Stated macOS version from memory.** Diagnosed a notarytool failure as "macOS 26 beta." It was a stable release. Run `sw_vers` first. A diagnosis built on assumed versions is not a diagnosis.
 - **Tried workarounds before diagnosing tool failure.** xcrawl MCP wasn't loading; I tried WebFetch instead of checking why. Check server status, API key validity, and config before switching methods.
 - **Wrote the fix before finishing the trace.** "Let me just try this" is a red flag. It means the hypothesis is incomplete. Stop, finish the trace, write the hypothesis in one sentence, then write the fix.
+- **Blind restart loop.** Restarted the server 8 times, changing one variable each time without reading the actual error response body. Read the last error verbatim before restarting; never restart more than twice without a new evidence-based hypothesis.
+- **Pipeline healthy but no output.** Orchestrator reported RUNNING, but TTS vendor was misconfigured. Polled status instead of testing each stage. In multi-stage pipelines (ASR->LLM->TTS), test each stage in isolation when the orchestrator says healthy but output is missing.
 
 ## Outcome
 

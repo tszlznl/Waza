@@ -83,6 +83,8 @@ Real failures from prior sessions, in order of frequency:
 - **Analyzed when execution was requested.** User said "帮我做" and got three options. "帮我做," "优化," "改回去" = execute immediately. No option framework.
 - **Designed around a tool that wasn't available.** Planned an MCP-dependent workflow without checking if the MCP server was loaded. Verify external tool availability before the first design step.
 - **Rejected design restarted from scratch.** User said the direction was wrong. Should have asked what specifically failed and re-entered Phase 2 with narrowed constraints, not a blank slate.
+- **Assumed regional API variants were identical.** Shengwang (China) and Agora (International) have different endpoints, auth schemes, and supported vendors. Built against the wrong one. List all regional differences before writing integration code.
+- **Added a new runtime without asking.** Followed official docs' FastAPI examples into a Next.js project, creating a Python backend nobody wanted. Translate doc examples to the user's existing stack; never add a new language or runtime without explicit approval.
 
 ## Output
 

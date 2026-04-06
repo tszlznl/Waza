@@ -73,6 +73,7 @@ Real failures from prior sessions, in order of frequency:
 - **Claimed it looked right without opening a browser.** Code that renders correctly in your head can still look broken in the browser. Open it, confirm it, then hand off.
 - **Chose glassmorphism and ignored the mobile constraint.** `backdrop-filter` is expensive on low-power devices. Picked the direction without naming the tradeoff. Name conflicts explicitly and decide which wins.
 - **Picked colors that don't commit.** A muted blue-gray that "goes with everything" goes with nothing. Dominant color plus one sharp accent. Commit.
+- **Layout jittered on state transitions.** Switching between idle/connecting/active shifted the UI because element sizes changed per state. All states must occupy the same layout footprint; use fixed dimensions or `min-height`.
 
 ## Handoff
 

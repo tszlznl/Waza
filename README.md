@@ -21,18 +21,20 @@ A good engineer does not just write code. They think through requirements, revie
 
 ## Skills
 
-Waza gives each of these habits a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills): you type the slash command, Claude follows the playbook. No framework overhead, no telemetry.
+Each engineering habit gets a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills). Type the slash command, Claude follows the playbook.
 
 | Skill | When | What it does |
 | :--- | :--- | :--- |
-| [`/think`](skills/think) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
-| [`/design`](skills/design) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
-| [`/check`](skills/check) | After a task, before merging | Reviews the diff, auto-fixes safe issues, batches judgment calls, verifies with evidence before claiming done. |
-| [`/hunt`](skills/hunt) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
-| [`/write`](skills/write) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Strips AI writing patterns. |
-| [`/learn`](skills/learn) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
-| [`/read`](skills/read) | Any URL or PDF | Fetches content as clean Markdown. |
-| [`/health`](skills/health) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
+| [`/think`](skills/think/SKILL.md) | Before building anything new | Challenges the problem, pressure-tests the design, validates architecture before any code is written. |
+| [`/design`](skills/design/SKILL.md) | Building frontend interfaces | Produces distinctive UI with a committed aesthetic direction, not generic defaults. |
+| [`/check`](skills/check/SKILL.md) | After a task, before merging | Reviews the diff, auto-fixes safe issues, blocks destructive commands via hooks, verifies with evidence. |
+| [`/hunt`](skills/hunt/SKILL.md) | Any bug or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied. |
+| [`/write`](skills/write/SKILL.md) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Strips AI writing patterns. |
+| [`/learn`](skills/learn/SKILL.md) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
+| [`/read`](skills/read/SKILL.md) | Any URL or PDF | Fetches content as clean Markdown via proxy cascade script. |
+| [`/health`](skills/health/SKILL.md) | Auditing Claude Code setup | Checks CLAUDE.md, rules, skills, hooks, MCP, and behavior. Flags issues by severity. |
+
+Each skill is a folder, not just a markdown file. Skills include reference docs, helper scripts, scoped hooks, and gotchas sections built from real project failures. See Anthropic's [skill best practices](https://x.com/trq212/status/2033949937936085378) for the philosophy behind this structure.
 
 ## English Coaching
 
@@ -66,11 +68,11 @@ Replace `health` with any skill name. Requires Node 18+ and Claude Code.
 
 ## Background
 
-Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done. They feel built for power users, not for someone starting out or working on a focused project.
+Tools like Superpowers and gstack are impressive, but they are heavy. Too many skills, too much configuration, too steep a learning curve for engineers who just want to get things done.
 
-Waza is the opposite: a small set of skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
+Waza is the opposite: eight skills that cover the habits that actually matter. Each one does one thing, has a clear trigger, and stays out of the way. The goal is not completeness. It is the right amount, done well.
 
-Built from patterns accumulated across real projects. Each skill encodes a specific engineering habit as a repeatable playbook, so you do not have to remember the process, only trigger it. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
+Built from patterns accumulated across real projects, then refined with 30 days of usage data (300+ sessions, 7 projects, 500 hours). Each gotcha in a skill traces back to a specific failure: a wrong code path that cost four rounds, a release announced before artifacts were uploaded, a server restarted eight times without reading the error. The `/health` skill is based on the six-layer framework described in [this post](https://tw93.fun/en/2026-03-12/claude.html).
 
 ## Support
 
