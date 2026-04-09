@@ -2,7 +2,7 @@
 name: hunt
 description: Invoke when debugging any error, crash, unexpected behavior, or failing test. Finds root cause before applying any fix. Not for code review or new features.
 metadata:
-  version: "3.4.0"
+  version: "3.5.0"
 ---
 
 # Hunt: Diagnose Before You Fix
@@ -38,6 +38,8 @@ When these surface, stop and re-examine:
 - **Pay attention to deflection.** When someone says "that part doesn't matter," treat it as a signal. The area someone avoids examining is often where the problem lives.
 - **Visual/rendering bugs: static analysis first.** Trace paint layers, stacking contexts, and layer order in DevTools before adding console.log or visual debug overlays. Logs cannot capture what the compositor does. Only add instrumentation after static analysis fails.
 - **Fix the cause, not the symptom.** If the fix touches more than 5 files, pause and confirm scope with the user.
+- **Verify target before editing.** Before modifying any file, grep to confirm the function, variable, or code path exists at the expected location. If grep returns nothing, re-examine the execution path. Do not edit based on memory.
+- **Never reference what does not exist.** Before calling a function or using an identifier in a fix, grep the codebase to verify it exists. No results = do not use it. Create it explicitly first or choose an identifier that does exist.
 - If you catch yourself writing a fix before finishing the trace, or thinking "let me just try this," stop.
 
 ## Confirm or Discard
@@ -55,6 +57,7 @@ Add one targeted instrument: a log line, a failing assertion, or the smallest te
 | Wrote the fix before finishing the trace | "Let me just try this" = incomplete hypothesis. Stop. |
 | Restarted 8 times without reading the actual error response | Read the last error verbatim before restarting |
 | Orchestrator said RUNNING but TTS vendor was misconfigured | In multi-stage pipelines, test each stage in isolation |
+| Used `format_size` (nonexistent), should have been `bytes_to_human` | Grep for the function name before writing a call to it |
 
 ## Outcome
 

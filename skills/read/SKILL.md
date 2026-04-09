@@ -2,7 +2,7 @@
 name: read
 description: Invoke when given any URL, web page link, or PDF to read. Fetches the content as clean Markdown via proxy cascade and saves to Downloads. Not for local files already in the repo.
 metadata:
-  version: "3.4.0"
+  version: "3.5.0"
 ---
 
 # Read: Fetch Any URL or PDF as Markdown

@@ -2,7 +2,7 @@
 name: check
 description: Invoke after any implementation task completes or before merging. Reviews the diff, auto-fixes safe issues, runs specialist security and architecture reviewers on large diffs. Not for exploring ideas or debugging.
 metadata:
-  version: "3.4.0"
+  version: "3.5.0"
 ---
 
 # Check: Review Before You Ship
