@@ -10,7 +10,7 @@
     {
       "name": "health",
       "description": "Run when Claude ignores rules, hooks malfunction, or MCP needs auditing.",
-      "version": "3.5.0",
+      "version": "3.6.0",
       "category": "development",
       "source": "./skills/health",
       "skills": [

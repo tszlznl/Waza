@@ -2,7 +2,7 @@
 name: health
 description: Invoke when Claude ignores instructions, behaves inconsistently, hooks malfunction, or MCP servers need auditing. Audits the full six-layer config stack and flags issues by severity. Not for debugging code or reviewing PRs.
 metadata:
-  version: "3.5.0"
+  version: "3.6.0"
 ---
 
 # Claude Code Configuration Health Audit
@@ -34,7 +34,7 @@ Pick tier:
 
 ## Step 1: Collect all data
 
-Run `bash "$CLAUDE_SKILL_DIR/scripts/collect-data.sh"` to collect all configuration data. The script outputs labeled sections covering: tier metrics, CLAUDE.md (global + local), settings/hooks/MCP, rules, skill inventory, context budget, conversation history, and skill security content.
+Run `bash "$CLAUDE_SKILL_DIR/scripts/collect-data.sh"` to collect all configuration data. The script outputs labeled sections covering: tier metrics, CLAUDE.md (global + local), settings/hooks/MCP, rules, skill inventory, context budget, conversation history, conversation signals, and skill security content.
 
 ## Step 1b: MCP Live Check
 
@@ -62,7 +62,7 @@ Pass this table to Agent 1 for inclusion in the MCP findings section.
 Before interpreting Step 1 output, check these known failure modes.
 
 **Data collection silent failures**
-- `jq` not installed: conversation extraction prints `(unavailable: jq not installed or parse error)`. BEHAVIOR section will be empty -- treat as [INSUFFICIENT DATA], not a finding.
+- `jq` not installed: conversation extract and conversation signals print `(unavailable: jq not installed or parse error)`. BEHAVIOR and conversation-based context checks will be empty -- treat as [INSUFFICIENT DATA], not a finding.
 - `python3` not on PATH: all MCP/hooks/allowedTools sections print `(unavailable)`. Do not flag those areas when the data source itself failed.
 - `settings.local.json` absent: hooks, MCP, and allowedTools all show `(unavailable)`. Normal for projects using global settings only -- not a misconfiguration.
 
@@ -87,9 +87,9 @@ Summarize what was collected (word counts, skills found, conversation files samp
 
 **Fallback:** If either subagent fails (API error, timeout, or empty result), do not abort. Analyze that layer locally from Step 1 data instead and note "(analyzed locally -- subagent unavailable)" in the affected section of the report.
 
-### Agent 1 -- Context + Security Audit (no conversation needed)
+### Agent 1 -- Context + Security Audit (uses conversation signals only)
 
-Read `agents/inspector-context.md` from this skill's directory. It specifies which Step 1 sections to paste and the full audit checklist.
+Read `agents/inspector-context.md` from this skill's directory. It specifies which Step 1 sections to paste and the full audit checklist. Paste `CONVERSATION SIGNALS`, not the full `CONVERSATION EXTRACT`, so Agent 1 can inspect enforcement gaps and context pressure without duplicating the heaviest evidence block.
 
 ### Agent 2 -- Control + Behavior Audit (uses conversation evidence)
 
