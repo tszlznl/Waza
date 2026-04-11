@@ -1,31 +1,11 @@
 PROJECT_KEY := $(shell printf '%s' "$(CURDIR)" | sed 's|[/_]|-|g; s|^-||')
 
-.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-health
+.PHONY: test verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-health
 
-test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-health
+test: verify-docs verify-scripts smoke-statusline smoke-statusline-installer smoke-verify-skills smoke-health
 
 verify-docs:
-	for f in skills/*/SKILL.md; do \
-		head -5 "$$f" | grep -q "^name:" && echo "ok: $$f" || { echo "MISSING name: $$f"; exit 1; }; \
-	done
-	for skill in check design health hunt learn read think write; do \
-		skill_ver=$$(grep -m1 "version:" "skills/$$skill/SKILL.md" | tr -d '"' | awk '{print $$2}'); \
-		market_ver=$$(python3 -c "import json; d=json.load(open('marketplace.json')); print([p['version'] for p in d['plugins'] if p['name']=='$$skill'][0])"); \
-		[ "$$skill_ver" = "$$market_ver" ] && echo "ok: $$skill $$skill_ver" || { echo "MISMATCH: $$skill SKILL=$$skill_ver MARKET=$$market_ver"; exit 1; }; \
-	done
-	test -f skills/design/references/design-reference.md
-	test -f skills/read/references/read-methods.md
-	test -f skills/write/references/write-zh.md
-	test -f skills/write/references/write-en.md
-	test -f skills/health/agents/inspector-context.md
-	test -f skills/health/agents/inspector-control.md
-	test -f skills/check/agents/reviewer-security.md
-	test -f skills/check/agents/reviewer-architecture.md
-	test -f skills/check/references/persona-catalog.md
-	test -f rules/english.md
-	echo "references: ok"
-	python3 -c "import json; json.load(open('marketplace.json'))"
-	echo "marketplace.json: ok"
+	./scripts/verify-skills.sh
 
 verify-scripts:
 	git diff --check
@@ -53,7 +33,7 @@ smoke-statusline:
 
 smoke-statusline-installer:
 	@tmpdir=$$(mktemp -d); \
-		home_dir="$$tmpdir/home"; \
+			home_dir="$$tmpdir/home"; \
 		bin_dir="$$tmpdir/bin"; \
 		mkdir -p "$$home_dir/.claude" "$$bin_dir"; \
 		printf '%s\n' '{invalid json' > "$$home_dir/.claude/settings.json"; \
@@ -75,6 +55,22 @@ smoke-statusline-installer:
 		python3 -c "import json, sys; data=json.load(open(sys.argv[1])); assert data['theme'] == 'dark'; assert data['statusLine']['command'] == 'bash ~/.claude/statusline.sh'" "$$home_dir/.claude/settings.json"; \
 		test -x "$$home_dir/.claude/statusline.sh"; \
 		echo "statusline installer smoke: ok"
+
+smoke-verify-skills:
+	@tmpdir=$$(mktemp -d); \
+		cp -R . "$$tmpdir/repo"; \
+		python3 -c "from pathlib import Path; p=Path('$$tmpdir/repo/skills/check/SKILL.md'); t=p.read_text(); t=t.replace('---\n', '', 1); i=t.find('\n---\n'); p.write_text(t[:i] + t[i+5:])"; \
+		if (cd "$$tmpdir/repo" && ./scripts/verify-skills.sh >"$$tmpdir/frontmatter.out" 2>"$$tmpdir/frontmatter.err"); then \
+			echo "verify-skills should reject missing frontmatter delimiters"; exit 1; \
+		fi; \
+		grep -q 'INVALID FRONTMATTER' "$$tmpdir/frontmatter.err"; \
+		cp -R . "$$tmpdir/repo2"; \
+		python3 -c "import json; p='$$tmpdir/repo2/marketplace.json'; d=json.load(open(p)); d['plugins'].append({'name':'ghost','description':'x','version':'1.0.0','category':'development','source':'./skills/ghost','homepage':'https://example.com'}); open(p,'w').write(json.dumps(d, indent=2) + '\n')"; \
+		if (cd "$$tmpdir/repo2" && ./scripts/verify-skills.sh >"$$tmpdir/market.out" 2>"$$tmpdir/market.err"); then \
+			echo "verify-skills should reject marketplace-only entries"; exit 1; \
+		fi; \
+		grep -q 'MISSING SKILL DIRECTORY: ghost' "$$tmpdir/market.err"; \
+		echo "verify-skills smoke: ok"
 
 smoke-health:
 	@tmpdir=$$(mktemp -d); \
