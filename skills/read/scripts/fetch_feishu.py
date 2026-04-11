@@ -56,6 +56,7 @@ def parse_url(url):
         (r"feishu\.cn/docs/([A-Za-z0-9]+)", "legacy_doc"),
         (r"feishu\.cn/wiki/([A-Za-z0-9]+)", "wiki"),
         (r"larksuite\.com/docx/([A-Za-z0-9]+)", "docx"),
+        (r"larksuite\.com/docs/([A-Za-z0-9]+)", "legacy_doc"),
         (r"larksuite\.com/wiki/([A-Za-z0-9]+)", "wiki"),
     ]
     for pattern, doc_type in patterns:

@@ -2,20 +2,36 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# All SKILL.md files have valid frontmatter
+# Required frontmatter: name, description, version must all be present
 for f in skills/*/SKILL.md; do
-  if head -5 "$f" | grep -q "^name:"; then
-    echo "ok: $f"
-  else
-    echo "MISSING name: $f" >&2
+  for field in name description; do
+    if ! head -5 "$f" | grep -q "^${field}:"; then
+      echo "MISSING ${field}: in $f" >&2
+      exit 1
+    fi
+  done
+  if ! grep -q "^  version:" "$f"; then
+    echo "MISSING version: in $f" >&2
     exit 1
   fi
+  echo "ok: $f"
 done
 
-# Version consistency: SKILL.md must match marketplace.json
-for skill in check design health hunt learn read think write; do
-  skill_ver=$(grep -m1 "version:" "skills/$skill/SKILL.md" | tr -d '"' | awk '{print $2}')
-  market_ver=$(python3 -c "import json; d=json.load(open('marketplace.json')); print([p['version'] for p in d['plugins'] if p['name']=='$skill'][0])")
+# Version consistency: derived from filesystem, not hardcoded list
+# Catches new skills added to skills/ but missing from marketplace.json
+for f in skills/*/SKILL.md; do
+  skill=$(basename "$(dirname "$f")")
+  skill_ver=$(grep -m1 "version:" "$f" | tr -d '"' | awk '{print $2}')
+  market_ver=$(python3 -c "
+import json, sys
+d = json.load(open('marketplace.json'))
+entries = [p['version'] for p in d['plugins'] if p['name'] == sys.argv[1]]
+print(entries[0] if entries else 'MISSING')
+" "$skill")
+  if [ "$market_ver" = "MISSING" ]; then
+    echo "NOT IN MARKETPLACE: $skill" >&2
+    exit 1
+  fi
   if [ "$skill_ver" = "$market_ver" ]; then
     echo "ok: $skill $skill_ver"
   else
