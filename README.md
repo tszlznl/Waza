@@ -65,8 +65,16 @@ Most AI models were trained on far more English than any other language, so ever
 
 Claude corrects your mistakes in place, tagging each one with its pattern name so you learn the rule, not just the fix.
 
+**Claude Code**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md -o ~/.claude/rules/english.md
+```
+
+**Codex**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tw93/Waza/main/rules/english.md >> ~/.codex/AGENTS.md
 ```
 
 ## Install
