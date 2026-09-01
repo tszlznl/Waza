@@ -246,7 +246,7 @@ def build_package_json(version: str) -> str:
             "type": "git",
             "url": "git+https://github.com/tw93/Waza.git",
         },
-        "homepage": "https://yobi.tw93.fun/projects/waza",
+        "homepage": "https://faberon.io/projects/waza",
         "keywords": [
             "pi-package",
             "agent-skills",
