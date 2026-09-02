@@ -40,11 +40,11 @@ When distilling a new lesson into this skill, fold it into an existing principle
 1. **Text present?** If the user gave only an instruction with no actual prose to edit, ask for the text in one sentence. Do not proceed.
 2. **Audience locked?** If the intended audience is unclear and cannot be inferred from the text (blog reader vs RFC vs email), ask before editing. Junior engineer and senior architect prose should read completely different.
 3. **Language detected from the text being edited**, not the user's command:
-   - Contains Chinese characters + release notes or social post mode → load `references/write-zh-release-notes.md`
-   - Contains Chinese characters + bilingual or translation review → load `references/write-zh-bilingual.md`
-   - Product/site/app localization review across multiple locales → load `references/write-product-localization.md`; also load `references/write-zh-bilingual.md` when Chinese copy is present
-   - Contains Chinese characters (default prose) → load `references/write-zh.md`
-   - Otherwise → load `references/write-en.md`
+   - Contains Chinese characters + release notes or social post mode loads `references/write-zh-release-notes.md`
+   - Contains Chinese characters + bilingual or translation review loads `references/write-zh-bilingual.md`
+   - Product/site/app localization review across multiple locales loads `references/write-product-localization.md`; also load `references/write-zh-bilingual.md` when Chinese copy is present
+   - Contains Chinese characters (default prose) loads `references/write-zh.md`
+   - Otherwise loads `references/write-en.md`
 
 ## Mode Picker
 
@@ -112,7 +112,7 @@ Load `references/write-zh-release-notes.md` for the five announcement rules (com
 - **Material gate before drafting long-form.** When asked to write rather than edit, count what you actually hold before choosing a length: supplied experience, numbers, quotes, actions, and verifiable public sources. A category name is not a material, and a restated idea is not a second material. Reasoning connects material; it does not breed material. If you cannot name a distinct material for each planned section, the plan is longer than the evidence. Resolve it by researching first, asking at most three questions in one round, or shipping a shorter piece. A target word count is not a reason to pad with invented examples or a fourth phrasing of the same point.
 - **Shorter than the first draft wants to be.** Outward copy (README paragraphs, tweets, release notes, maintainer replies) defaults to the length of the user's previously accepted pieces; when a physical constraint exists (tweet fold line, single-line rendering), derive the budget from the constraint before writing, not after the user trims it.
 - **Artifact-grounded claims.** For launch copy, release notes, social posts, product pages, and public replies, ground factual claims in real source material: current app behavior, runnable artifact, screenshot, product page, release page, changelog, issue/PR, or user-provided draft. Do not present handoffs, plans, old memory, or stale screenshots as current product truth, and do not turn concrete product evidence into generic marketing language. Compare the draft against the shipping artifact and tighten until the two agree.
-- **No em-dash.** Never produce em-dash (U+2014) or en-dash (U+2013) in Chinese or English output. Em-dash is the strongest AI-tone fingerprint in this style of writing. Use commas, periods, colons, semicolons, or parentheses to break clauses. Hyphen-minus (`-`) inside compound words is allowed; replace it with a space or a period when possible. When editing a draft that contains em-dashes, replace every one before returning the text.
+- **No em-dash.** Never produce em-dash (U+2014) or en-dash (U+2013) in Chinese or English output. Em-dash is the strongest AI-tone fingerprint in this style of writing. Use commas, periods, colons, or parentheses to break clauses. Hyphen-minus (`-`) inside compound words is allowed; replace it with a space or a period when possible. When editing a draft that contains em-dashes, replace every one before returning the text.
 - **Stop after output.** Deliver the rewritten text. Do not append a list of changes, a justification, or a closer. (Exception: `references/mode-long-form.md` returns change-points for review instead of a rewritten blob.)
 
 ## Punctuation Gate

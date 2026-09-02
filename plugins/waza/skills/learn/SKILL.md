@@ -119,4 +119,4 @@ When it reads clean from start to finish, the draft is ready for the user to pub
 
 ## Output
 
-The artifact matches the mode's exit: Quick Reference ends at Phase 2 with notes; Deep Research, Write to Learn, and Canonical Article end at Phase 6 with a publish-ready draft (Canonical Article adds the Further Reading section). Every artifact carries the source list it was built from, keeps contradictions visible with each side's evidence, and marks the gaps Phase 5 found rather than papering over them. Report the saved path when files were written, then stop at the user's publish confirmation.
+The artifact is the mode's exit from the table above. Report the saved path when files were written, then stop at the user's publish confirmation.

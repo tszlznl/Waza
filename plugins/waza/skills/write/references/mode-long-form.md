@@ -2,7 +2,7 @@
 
 Loaded from `write` when the input is a long draft that needs structural work before line edits.
 
-Activate when: editing a Markdown article with multiple `##` sections plus tables and images (technical long-reads, blog posts, deep dives).
+Activate when: editing a Markdown article with multiple `##` sections, tables, or images (technical long-reads, blog posts, deep dives).
 
 In long-form, the dominant problem is usually structural: the same checklist repeated across sections, prose that re-reads a table sitting right above it, list bloat, whole redundant sections. Sentence-level AI taste is the smaller half, and a single in-place polish pass cannot see the structural half. This mode therefore overrides two Hard Rules: structural cuts and merges are in-scope, and the output is change-points for review, not a rewritten blob.
 

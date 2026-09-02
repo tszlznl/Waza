@@ -18,8 +18,15 @@ Read the diff and find the problems. Review, audit, triage, and readiness reques
 - Outcome: a review, release decision, or maintainer action grounded in the current diff, project context, and live evidence.
 - Done when: findings, fixes, shipped state, or blockers are stated with the commands, artifacts, or remote state that prove them.
 - Evidence: worktree status, diff, public project docs, manifests, CI, package contents, release or registry state, and current command output.
-- Output: concise findings first, then verification and shipped-state summary when applicable. Multi-step or ship-action runs close with a completion ledger (done / not applicable / remaining), never a narrative that leaves the user asking "is everything done".
+- Output: concise findings first, then verification and shipped-state summary when applicable. Multi-step or ship-action runs, and any request with several items or screenshots, close with a numbered completion ledger (done / not applicable / remaining), never a narrative that leaves the user asking "is everything done".
 - Authorization: read-only intent may inspect the worktree and remote state but may not edit files, apply autofixes, commit, push, publish, comment, close, merge, or change branches. Each write or public action needs current-turn authorization, except when the user explicitly authorizes a named batch that contains it.
+
+## Durable Context Preflight
+
+See [references/durable-context.md](references/durable-context.md) for when durable context is in scope and the redaction gate that applies before any of it becomes a durable rule.
+
+For `/check`: the current diff, CI, and remote state override memory. Durable memory can explain user intent and preferred follow-through, but public project rules still come from README files, manifests, CI workflows, release docs, and explicit instructions in the current thread. Never cite private memory as a public project requirement.
+
 
 ## Worktree Safety Preflight
 
@@ -70,12 +77,6 @@ Before reviewing, extract project constraints from repository context:
 For the context shape, see `references/project-context.md`.
 
 For release or maintainer work, also fill the Release Gate 2.0 matrix from `references/project-context.md`. It covers review base, dirty/staged/untracked state, latest tag, origin sync, version fields, generated artifacts, package/archive contents, release assets, registry/appcast/CI, and public issue/PR state. Missing matrix evidence is a blocker for a "ready to release" claim.
-
-## Durable Context Preflight
-
-See [references/durable-context.md](references/durable-context.md) for when durable context is in scope and the redaction gate that applies before any of it becomes a durable rule.
-
-For `/check`: the current diff, CI, and remote state override memory. Durable memory can explain user intent and preferred follow-through, but public project rules still come from README files, manifests, CI workflows, release docs, and explicit instructions in the current thread. Never cite private memory as a public project requirement.
 
 ## Plan Execution Mode
 
@@ -157,7 +158,7 @@ When a diff touches a skill, plugin, marketplace entry, installer, package allow
 
 - **No unverified claims.** Do not write "I verified X", "I ran Y", "tests pass", or "this fixes Z" unless the shell output is in this turn's transcript. If you reason about behavior without running, say "based on reading the code" instead of "I verified". Every verification claim in the sign-off must point to a command that actually ran in this session.
 - **Re-read source-of-truth facts.** Refresh line numbers, worktree state, fallback behavior, locale coverage, artifact state, and the identity of any issue, PR, or thread in the current turn before citing or posting to it. Earlier context and reviewer notes are leads, not evidence.
-- **Public replies follow `references/public-reply.md`** and, for Chinese, `rules/chinese.md`: short natural paragraphs, one thanks, no bullet structure.
+- **Public replies follow `references/public-reply.md`**: short natural paragraphs, one thanks, no bullet structure, in the reporter's language.
 
 ## Hard Stops (fix before merging)
 
@@ -293,5 +294,3 @@ verification:     [command] -> pass / fail
 For a whole-scope or post-fix verdict, `scope` is backed by the frozen baseline and current inventory, not by the last patch viewed. For a ship action, the status line is incomplete until every currently authorized ledger item is `done`, `not applicable`, or `blocked` with evidence.
 
 A turn that wrote files ends with the actual output of `git status --short --branch` and, when it pushed, the `status,conclusion` of the CI run for that sha; if either command was not run, the first line says which.
-
-A message with three or more items, or two or more screenshots, opens a numbered ledger in the reply. The preview build, the commit, and any "all done" wording are gated on every row reading fixed-and-verified, decided-not-to, or blocked; items from earlier in the session stay in the ledger until closed.

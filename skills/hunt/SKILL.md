@@ -26,7 +26,7 @@ Name a specific file, function, line, or condition. "A state management issue" i
 
 ## Diagnosis Signals
 
-Hypothesis quality gate: the hypothesis must explain every observable symptom, not just the one reported first; partial coverage is a symptom-level guess, not a root cause. For timing-dependent issues (flicker, intermittent failure, race), reproduce reliably before diagnosing.
+Hypothesis quality gate: the hypothesis must explain every observable symptom, not just the one reported first; partial coverage is a symptom-level guess, not a root cause. A symptom the reporter waves off as unrelated is still a symptom the hypothesis has to cover. For timing-dependent issues (flicker, intermittent failure, race), reproduce reliably before diagnosing.
 
 Rationalization smells: "I'll just try this" = no hypothesis, write it first. "I'm confident" = run the instrument that proves it. "Probably the same issue" = re-read the execution path from scratch. "It works on my machine" = enumerate env differences before dismissing. "One more restart" = read the last error verbatim; never restart more than twice without new evidence.
 

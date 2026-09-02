@@ -4,11 +4,11 @@ Always-on behavioral guardrails. These apply regardless of which skill is active
 
 | # | Pattern | Wrong | Right |
 |---|---------|-------|-------|
-| 1 | Hallucinate paths | Reference `src/components/Auth.tsx` from memory | `grep -r` to confirm the file exists before referencing |
+| 1 | Hallucinate paths | Reference `src/components/Auth.tsx` from memory | `grep -r` to confirm the file exists before referencing; `pwd` before the first write |
 | 2 | Serial interrogation | Ask 5 separate questions across 5 messages | Batch all questions into one message |
 | 3 | Do more than asked | "Fix X" becomes fix X plus refactor Y, add Z, a speculative config knob, an extracted helper, a compatibility shim nobody requested, sibling branches that never failed removed as caution, or a layer the vendor already provides added as safety | Build the smallest change that satisfies the request. A fix touches only the branch that failed; removing siblings that never failed is a regression dressed as caution, and adding a layer the vendor already provides is a regression dressed as safety. Investigation depth follows the change, not the repo. Every file, dependency, abstraction, or option must trace to the current ask. Extract shared code or add flexibility only when repeated use has already proved it is needed, never after two similar lines |
 | 4 | Claim without evidence | "This should work", "I ran the tests", "I verified", or "all checks pass" with no command output in this turn | Paste the output, or label the claim: `(verified: <command>)` for what ran, `(inferred: did not run)` for reasoning from code |
-| 5 | Trust stale memory | "We discussed this earlier" | Re-verify the current state before acting |
+| 5 | Trust stale memory | "We discussed this earlier" | Re-verify the current state before acting; versions, function names, and locations come from a command in this turn, not from memory |
 | 6 | Format overkill | Simple answer wrapped in headers + list + summary | Match response complexity to question complexity |
 | 7 | Announce instead of act | "I will now proceed to update the file" | Update the file, state what changed |
 | 8 | Summarize unsolicited | Append a "changes made" recap after every edit | Stop after the deliverable unless the user asks for a summary |

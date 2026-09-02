@@ -93,8 +93,8 @@ project_context=$(unzip -p "$tmpdir/waza.zip" skills/check/references/project-co
 [[ "$project_context" == *'`skills/check/references/public-reply.md`'* ]] || {
   echo "second nested basename should stay inside the same skill"; exit 1
 }
-write_zh_prose=$(unzip -p "$tmpdir/waza.zip" skills/write/references/write-zh-prose.md)
-[[ "$write_zh_prose" == *'`skills/write/references/write-zh.md`'* ]] || {
+mode_long_form=$(unzip -p "$tmpdir/waza.zip" skills/write/references/mode-long-form.md)
+[[ "$mode_long_form" == *'`skills/write/references/write-zh.md`'* ]] || {
   echo "nested basename should resolve in another skill independently"; exit 1
 }
 

@@ -191,7 +191,7 @@ Agent instructions in the wrong layer, missing hooks, oversized descriptions, ve
 
 **Codex/Claude/Pi instruction drift.** Use `AGENT CONFIG SUMMARY` first. Report a Structural finding when `AGENTS.md` and runtime-specific files both contain substantial guidance without delegation, when Codex `config.toml` lacks trust for the current project, when Pi settings or package metadata point at missing skill roots, when project agent instructions are missing, or when runtime-specific instructions contradict the shared project source of truth. Also report when important rules live only in ignored or private local instruction overlays but the tracked/public docs lack them; those overlays are private context, not durable project source of truth. Do not print raw config values. Secrets, tokens, keys, and passwords must appear only as `[REDACTED]`.
 
-Quick check from the project root, reusing `$HEALTH_SCRIPT` resolved in Step 1. Run standalone, it prints the same sections without the `AGENT CONFIG SUMMARY` wrapper, so its first line is `=== AGENT INSTRUCTION SURFACE ===`:
+Quick check from the project root, reusing `$HEALTH_SCRIPT` resolved in Step 1 (standalone output has no `AGENT CONFIG SUMMARY` wrapper):
 
 ```powershell
 & "$POWERSHELL" -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$HEALTH_LAUNCHER" agent-context . summary
