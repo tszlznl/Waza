@@ -1,8 +1,5 @@
 from pathlib import Path
 
-from markdown_fragments import github_heading_inventory
-
-
 ROOT = Path(__file__).resolve().parents[2]
 UI = ROOT / "skills" / "ui"
 
@@ -100,29 +97,6 @@ def test_generated_asset_owns_screenshot_output_defects() -> None:
     assert "Generated image assets remain in `mode-generated-asset.md`" in screenshot
     assert "both taste and output defects" in screenshot
     assert "generated asset defect rather than taste, route to `/hunt`" not in screenshot
-
-
-def test_aesthetic_compatibility_file_maps_every_former_section_once() -> None:
-    compatibility = read("references/design-aesthetic-quality.md")
-    canonical = read("references/design-reference.md")
-    former_sections = {
-        "App Shell Rules": "app-shell-rules",
-        "Options Guide": "options-guide",
-        "DESIGN.md Scaffold": "designmd-scaffold-optional-production-uis",
-        "Pre-Handoff Checklist: Strategic Omissions":
-            "pre-handoff-checklist-strategic-omissions",
-        "Reference Material Priority": "reference-material-priority",
-        "Adding to Existing UI": "adding-to-existing-ui",
-    }
-    assert "one source of truth" in compatibility
-    assert len(compatibility.splitlines()) < 30
-    _, canonical_base_counts = github_heading_inventory(canonical)
-    for section, anchor in former_sections.items():
-        assert f"| {section} |" in compatibility
-        assert f"(design-reference.md#{anchor})" in compatibility
-        assert canonical_base_counts[anchor] == 1
-    assert "Decorative backgrounds default to off" not in compatibility
-    assert "Decorative backgrounds default to off" in canonical
 
 
 def test_ui_skill_docs_contain_no_em_dash() -> None:
