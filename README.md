@@ -35,29 +35,29 @@ Each skill is a folder with reference docs, helper scripts, and gotchas from rea
 
 ## Install
 
-One command installs all eight skills, with no prompts and no errors. Copy and run:
+**Claude Code, Codex, Cursor, and other agents**
 
 ```bash
-npx skills add tw93/Waza -a claude-code codex cursor antigravity-cli -g -y
+npx skills add tw93/Waza -a claude-code codex cursor -g -y
 ```
 
-One canonical copy lands in the shared `~/.agents/skills` store (the agents.md standard directory) with Claude Code symlinked in, so Codex, Cursor, Kimi Code CLI, Amp, Cline, Antigravity CLI, and every other agent reading that directory picks Waza up automatically. Models routed through these harnesses (GLM or Kimi K2 behind Claude Code-compatible endpoints) need nothing extra; tools with a private skills directory append their agent id (e.g. `-a qwen-code iflow-cli antigravity-cli`). Update later with `npx skills update -g -y`.
+One copy lands in `~/.agents/skills`, the shared skills directory. Claude Code is symlinked in; Codex, Cursor, Gemini CLI, Copilot, Amp, Kimi Code CLI, and every other agent that reads that directory picks the eight skills up as `/check`, `/think`, and so on. Agents with a private skills directory take their id after `-a` (for example `antigravity-cli` or `qwen-code`). Update with `npx skills update -g -y`.
 
-**Native plugin** (for host-native update commands)
+**Host plugin**, if you prefer the host's own update command (skills are namespaced, `/waza:check`)
 
 ```bash
-# Claude Code: install, then `claude plugin update waza`
+# Claude Code (update: claude plugin update waza)
 /plugin marketplace add tw93/Waza
 /plugin install waza@waza
 
-# Codex: install, then `codex plugin marketplace upgrade waza`
+# Codex (update: codex plugin marketplace upgrade waza, then codex plugin add waza@waza)
 codex plugin marketplace add tw93/Waza
 codex plugin add waza@waza
 ```
 
-**Claude Desktop**: download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip), then Customize > Skills > "+" > Create skill, and upload the ZIP. Re-upload the latest ZIP to update.
+**Claude Desktop**: download [waza.zip](https://github.com/tw93/Waza/releases/latest/download/waza.zip), open Customize > Skills > "+" > Create skill, and upload the ZIP. To update, click "..." on the skill card, choose Replace, and upload the latest ZIP.
 
-**Pi**: `pi install npm:@tw93/waza` (update with `pi update npm:@tw93/waza`). `/health` audits Pi settings alongside Claude Code and Codex.
+**Pi**: `pi install npm:@tw93/waza`, update with `pi update npm:@tw93/waza`.
 
 ## Chaining Skills
 
