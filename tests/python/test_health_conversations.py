@@ -233,7 +233,14 @@ def test_emitted_signals_and_extracts_redact_credentials_and_windows_paths(
         "password=hunter2 C:\\Users\\name\\project\\secret.txt "
         "\\\\server\\share\\private.txt ~/private/config "
         "/Volumes/Backup/private.txt "
-        "secret=\"QUOTED-SECRET-HEAD QUOTED-SECRET-TAIL\n"
+        "PROVIDER_API_KEY=provider-namespaced-value "
+        "\"DATABASE_PASSWORD\": \"database-json-value\" "
+        "CLOUD_SECRET_ACCESS_KEY='cloud-namespaced-value' "
+        "SSH_PRIVATE_KEY=ssh-private-value "
+        "--password=conversation-flag-value "
+        "\"SERVICE_API_KEY\": \"escaped-head\\\"escaped-tail\" "
+        "token_count=42 api_key_status=missing secret_scan_status=ok "
+        "secret=\"QUOTED-SECRET-HEAD QUOTED-SECRET-TAIL\\\n"
         "-----BEGIN OPENSSH PRIVATE KEY-----\n"
         "openssh-private-material\n"
         "-----END OPENSSH PRIVATE KEY-----\n"
@@ -250,6 +257,13 @@ def test_emitted_signals_and_extracts_redact_credentials_and_windows_paths(
         fake_slack_token,
         "supersecrettokenvalue",
         "hunter2",
+        "provider-namespaced-value",
+        "database-json-value",
+        "cloud-namespaced-value",
+        "ssh-private-value",
+        "conversation-flag-value",
+        "escaped-head",
+        "escaped-tail",
         "QUOTED-SECRET-HEAD",
         "QUOTED-SECRET-TAIL",
         "C:\\Users\\name\\project\\secret.txt",
@@ -264,6 +278,13 @@ def test_emitted_signals_and_extracts_redact_credentials_and_windows_paths(
         assert leaked not in output
     assert "Authorization: <secret>" in output
     assert "password=<secret>" in output
+    assert "PROVIDER_API_KEY=<secret>" in output
+    assert '"DATABASE_PASSWORD": <secret>' in output
+    assert "CLOUD_SECRET_ACCESS_KEY=<secret>" in output
+    assert "SSH_PRIVATE_KEY=<secret>" in output
+    assert "--password=<secret>" in output
+    assert '"SERVICE_API_KEY": <secret>' in output
+    assert "token_count=42 api_key_status=missing secret_scan_status=ok" in output
     assert "<path>" in output
     assert "<private-key>" in output
 

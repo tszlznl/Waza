@@ -11,6 +11,40 @@ sys.modules[SPEC.name] = maint
 SPEC.loader.exec_module(maint)
 
 
+def test_command_labels_redact_credentials_without_hiding_status_fields():
+    label = (
+        "workflow.yml: PROVIDER_API_KEY=provider-namespaced-value "
+        '\"DATABASE_PASSWORD\": \"database-json-value\" '
+        "CLOUD_SECRET_ACCESS_KEY='cloud-namespaced-value' "
+        "SSH_PRIVATE_KEY=ssh-private-value "
+        "--token=maintainability-flag-value "
+        "token_count=42 api_key_status=missing secret_scan_status=ok "
+        "foo-token_count=7 "
+        "password_hash=sha256 notsecret=value secretary=value "
+        "CLOUD_ACCESS_KEY_ID=identifier"
+    )
+
+    redacted = maint.redact_command_label(label)
+
+    for leaked in (
+        "provider-namespaced-value",
+        "database-json-value",
+        "cloud-namespaced-value",
+        "ssh-private-value",
+        "maintainability-flag-value",
+    ):
+        assert leaked not in redacted
+    assert "PROVIDER_API_KEY=[REDACTED]" in redacted
+    assert '\"DATABASE_PASSWORD\": [REDACTED]' in redacted
+    assert "CLOUD_SECRET_ACCESS_KEY=[REDACTED]" in redacted
+    assert "SSH_PRIVATE_KEY=[REDACTED]" in redacted
+    assert "--token=[REDACTED]" in redacted
+    assert "token_count=42 api_key_status=missing secret_scan_status=ok" in redacted
+    assert "foo-token_count=7" in redacted
+    assert "password_hash=sha256 notsecret=value secretary=value" in redacted
+    assert "CLOUD_ACCESS_KEY_ID=identifier" in redacted
+
+
 def test_markdown_links_ignore_fenced_and_inline_code(tmp_path: Path):
     readme = tmp_path / "README.md"
     readme.write_text(

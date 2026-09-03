@@ -217,6 +217,14 @@ printf '%s\n' \
   '-----END OPENSSH PRIVATE KEY-----' \
   'password = "QUOTED-SECRET-MUST-NOT-LEAK QUOTED-SECRET-TAIL-MUST-NOT-LEAK"' \
   'secret = "UNCLOSED-SECRET-MUST-NOT-LEAK UNCLOSED-SECRET-TAIL-MUST-NOT-LEAK' \
+  'password = "BACKSLASH-SECRET-MUST-NOT-LEAK BACKSLASH-SECRET-TAIL-MUST-NOT-LEAK\' \
+  'PROVIDER_API_KEY=PROVIDER-NAMESPACED-SECRET-MUST-NOT-LEAK' \
+  '"DATABASE_PASSWORD": "JSON-NAMESPACED-SECRET-MUST-NOT-LEAK"' \
+  "CLOUD_SECRET_ACCESS_KEY='CLOUD-NAMESPACED-SECRET-MUST-NOT-LEAK'" \
+  'SSH_PRIVATE_KEY=SSH-PRIVATE-ASSIGNMENT-MUST-NOT-LEAK' \
+  '--token=CLI-FLAG-SECRET-MUST-NOT-LEAK' \
+  '"SERVICE_API_KEY": "ESCAPED-SECRET-HEAD-MUST-NOT-LEAK\"ESCAPED-SECRET-TAIL-MUST-NOT-LEAK"' \
+  'token_count=42 api_key_status=missing secret_scan_status=ok foo-token_count=7' \
   '-----BEGIN TEST PRIVATE KEY-----' \
   'PARTIAL-PRIVATE-KEY-MUST-NOT-LEAK' \
   > "$sensitive_repo/CLAUDE.md"
@@ -240,6 +248,15 @@ for leaked in \
   QUOTED-SECRET-TAIL-MUST-NOT-LEAK \
   UNCLOSED-SECRET-MUST-NOT-LEAK \
   UNCLOSED-SECRET-TAIL-MUST-NOT-LEAK \
+  BACKSLASH-SECRET-MUST-NOT-LEAK \
+  BACKSLASH-SECRET-TAIL-MUST-NOT-LEAK \
+  PROVIDER-NAMESPACED-SECRET-MUST-NOT-LEAK \
+  JSON-NAMESPACED-SECRET-MUST-NOT-LEAK \
+  CLOUD-NAMESPACED-SECRET-MUST-NOT-LEAK \
+  SSH-PRIVATE-ASSIGNMENT-MUST-NOT-LEAK \
+  CLI-FLAG-SECRET-MUST-NOT-LEAK \
+  ESCAPED-SECRET-HEAD-MUST-NOT-LEAK \
+  ESCAPED-SECRET-TAIL-MUST-NOT-LEAK \
   PARTIAL-PRIVATE-KEY-MUST-NOT-LEAK \
   /Users/private/hooks/secret.sh \
   /Users/private/handoff/path \
@@ -250,6 +267,14 @@ do
     echo "sensitive collector content leaked: $leaked"; exit 1
   fi
 done
+grep -Fq 'PROVIDER_API_KEY=[REDACTED]' "$tmpdir/sensitive.out"
+grep -Fq '"DATABASE_PASSWORD": [REDACTED]' "$tmpdir/sensitive.out"
+grep -Fq 'CLOUD_SECRET_ACCESS_KEY=[REDACTED]' "$tmpdir/sensitive.out"
+grep -Fq 'SSH_PRIVATE_KEY=[REDACTED]' "$tmpdir/sensitive.out"
+grep -Fq -- '--token=[REDACTED]' "$tmpdir/sensitive.out"
+grep -Fq '"SERVICE_API_KEY": [REDACTED]' "$tmpdir/sensitive.out"
+grep -Fq 'token_count=42 api_key_status=missing secret_scan_status=ok foo-token_count=7' \
+  "$tmpdir/sensitive.out"
 
 # Project instruction/config links may alias files inside the project, but must
 # not escape the audited root and turn report-only collection into an arbitrary

@@ -82,6 +82,8 @@ def test_emitted_evidence_redaction_patterns_aligned():
         skill_pattern = getattr(skill_security, name)
         assert conversation_pattern.pattern == skill_pattern.pattern
         assert conversation_pattern.flags == skill_pattern.flags
+    assert maint.SECRET_ASSIGNMENT_RE.pattern == conversation.SECRET_ASSIGNMENT_RE.pattern
+    assert maint.SECRET_ASSIGNMENT_RE.flags == conversation.SECRET_ASSIGNMENT_RE.flags
 
 
 def test_auditors_preserve_git_filenames_with_unicode_and_newlines(tmp_path):
