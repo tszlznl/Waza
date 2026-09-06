@@ -24,11 +24,11 @@ Each engineering habit gets an installed skill. In Claude Code, type the slash c
 | :--- | :--- | :--- |
 | [`/think`](skills/think/SKILL.md) | Before building anything new | Challenges the problem, pressure-tests the design, and produces a decision-complete plan another agent can implement. |
 | [`/ui`](skills/ui/SKILL.md) | Building frontend interfaces | Produces distinctive UI, including screenshot-driven aesthetic iteration, with a committed direction rather than generic defaults. |
-| [`/check`](skills/check/SKILL.md) | After a task, before merging or release | Reviews the diff, extracts project-specific constraints, handles approved release/publish/push/reaction follow-through, and verifies with evidence. |
+| [`/check`](skills/check/SKILL.md) | After a task, before merging or release | Reviews the diff against project constraints, verifies the result, and handles approved release and maintainer actions. |
 | [`/hunt`](skills/hunt/SKILL.md) | Any bug, regression, or unexpected behavior | Systematic debugging. Root cause confirmed before any fix is applied, especially when something used to work. |
 | [`/write`](skills/write/SKILL.md) | Writing or editing prose | Rewrites prose to sound natural in Chinese and English. Cuts stiff, formulaic phrasing. |
 | [`/learn`](skills/learn/SKILL.md) | Diving into an unfamiliar domain | Six-phase research workflow: collect, digest, outline, fill in, refine, then self-review and publish. |
-| [`/read`](skills/read/SKILL.md) | Any URL or PDF | Reads URLs and PDFs with platform-specific routing. Plain reads return a concise summary; Markdown output is used when asked to convert, quote, cite, save, or feed downstream work. |
+| [`/read`](skills/read/SKILL.md) | Any URL or PDF | Returns a concise summary, or clean Markdown for conversion, quotes, citations, saving, or further research. |
 | [`/health`](skills/health/SKILL.md) | Auditing Agent Health | Checks Codex, Claude Code, project instructions, verifier output, and AI maintainability with a budget-aware summary pass before deep inspection. |
 
 Each skill is a folder with reference docs, helper scripts, and gotchas from real failures.
@@ -61,7 +61,7 @@ codex plugin add waza@waza
 
 ## Chaining Skills
 
-Skills chain together, but every transition is a manual step you trigger. Each skill finishes its task and stops, waiting for you to decide what comes next.
+You decide how skills chain together. Each skill stops at the requested outcome; an explicitly authorized workflow continues without asking you to approve every transition.
 
 **Common workflows:**
 

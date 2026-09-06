@@ -38,6 +38,6 @@ In this distribution, sub-skill scripts live at `skills/{name}/scripts/`. Resolv
 
 ## Chaining
 
-Skills chain manually, not automatically. Each skill completes and waits for the user's next action.
+Each skill stops at the requested outcome. If the user explicitly authorizes a workflow across skills, complete that workflow without asking for approval at every transition; do not infer authorization for further actions.
 
 Common chains: `/think` -> implement approved plan -> `/check` | `/hunt` -> fix -> `/check` -> release/push/issue follow-through | `/read` -> `/learn` -> `/write`
