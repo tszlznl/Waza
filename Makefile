@@ -41,9 +41,9 @@ PY_SOURCES := $(wildcard scripts/*.py skills/*/scripts/*.py)
 
 verify-scripts:
 	git diff --check
-	bash -n $(SHELL_SOURCES)
+	@for file in $(SHELL_SOURCES); do bash -n "$$file" || exit $$?; done
 	echo "bash -n: ok"
-	bash -n $(TEST_FILES) tests/test_helpers.sh
+	@for file in $(TEST_FILES) tests/test_helpers.sh; do bash -n "$$file" || exit $$?; done
 	echo "bash -n tests/: ok"
 	@if command -v shellcheck >/dev/null 2>&1; then \
 	  shellcheck $(SHELL_SOURCES) && echo "shellcheck: ok"; \
