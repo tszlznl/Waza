@@ -26,7 +26,7 @@ def section(path: Path, heading: str) -> str:
         ),
         (
             ROOT / "skills" / "read" / "references" / "read-methods.md",
-            "Feishu / Lark Document",
+            "Helper Directory",
             "<skill-base-dir>/scripts",
             "<skill-base-dir>/skills/read/scripts",
         ),
