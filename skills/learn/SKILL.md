@@ -28,7 +28,7 @@ Check whether `/read` and `/write` skills are installed (look for their SKILL.md
 
 ## Choose Mode
 
-Ask the user to confirm the mode, using the environment's native question or approval mechanism if it has one:
+Infer the mode from the requested artifact and supplied materials. Ask only when plausible modes would change the scope or deliverable and the user's intent does not resolve the choice:
 
 | Mode | Goal | Entry | Exit |
 |------|------|-------|------|

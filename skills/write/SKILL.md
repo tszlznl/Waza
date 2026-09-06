@@ -78,25 +78,25 @@ Load `references/write-product-localization.md` and follow its review procedure.
 Activate when: PDF, document, white paper, "review this document", "check this document", "审稿"
 
 Review checklist:
-- **Privacy scan**: Detect PII (names, companies, employment dates, salary hints, location details). Hard stop if any text implies job seeking, competitor info, or personal data leakage.
+- **Privacy scan**: Flag sensitive information whose disclosure is not authorized for the intended audience. Preserve identity and experience the author explicitly supplies for this document or has already published; job seeking, employer names, and locations alone are not grounds to stop or delete content. Resolve uncertain disclosure before exposing it.
 - **Tone consistency**: Flag voice shifts, register mismatches, formulaic phrasing.
 - **Bilingual validation**: For CN/EN pairs, confirm translation accuracy and terminology consistency. Apply Bilingual Review Mode rules.
 - **Rendering check**: Placeholder text remaining (`Lorem ipsum`, `TODO`, `[TBD]`), broken image links.
 - **Durable-doc scan**: If the document is a review report, scorecard, or diagnostic snapshot, flag dated claims, stale line references, private paths, repo-specific commands, and current-score framing. Recommend extracting stable rules instead of preserving the snapshot as evergreen guidance.
 
-Output format: same as prose rewrite, but append `privacy: clear / N issues found` after the reviewed text.
+Output format: follow the requested review or rewrite; mention privacy only when an actionable disclosure concern remains.
 
 ## Paragraph Coherence Mode
 
 Activate when: "连贯性", "段落连贯", "可读性", "coherence", "flow check", "段落顺不顺"
 
-Do not rewrite. Instead, work through each paragraph in sequence:
+For review requests, report issues; for explicit rewrite or file-edit requests, apply the minimal authorized fixes. Check each paragraph for:
 1. Flag transitions that abruptly shift topic without a signal.
 2. Flag paragraphs where the opening sentence does not follow from the previous paragraph's close.
 3. Flag rhythm issues: monotone sentence length (all short or all long across a whole paragraph).
 4. Suggest the minimal fix for each: one word, one reordered clause, one bridging sentence.
 
-Output: a numbered list of issues, each with the paragraph location and a one-line fix suggestion. Then ask if the user wants any applied.
+Output: for review, a numbered list with paragraph locations and minimal fix suggestions; for rewriting, the revised text or scoped file changes. Do not ask again to apply already-authorized edits.
 
 ## Tweet / Social Post Mode
 
