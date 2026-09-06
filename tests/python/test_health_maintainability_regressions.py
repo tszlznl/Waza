@@ -1,6 +1,10 @@
 import importlib.util
+import json
+import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -119,3 +123,32 @@ def test_swift_package_has_native_verifier_surface(tmp_path: Path):
 
     assert "swift test" in commands
     assert "swift test" in evidence
+
+
+@pytest.mark.parametrize("default", ["check", "test", "verify"])
+def test_package_default_avoids_make_wrapper_warning(tmp_path: Path, default: str):
+    (tmp_path / "Makefile").write_text("build:\n\t@test -s package.json\n")
+    (tmp_path / "package.json").write_text(json.dumps({"scripts": {
+        default: "npm run lint && npm run typecheck",
+        "lint": "eslint .",
+        "typecheck": "tsc --noEmit",
+    }}))
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), str(tmp_path)], capture_output=True, text=True,
+        check=True,
+    )
+    assert f"npm run {default}" in result.stdout
+    assert "wrapper_status: PASS" in result.stdout
+
+
+def test_hollow_package_default_does_not_clear_wrapper_gap(tmp_path: Path):
+    (tmp_path / "Makefile").write_text("build:\n\t@test -s package.json\n")
+    (tmp_path / "package.json").write_text(json.dumps({"scripts": {
+        "check": "echo passed", "lint": "eslint .",
+    }}))
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), str(tmp_path)], capture_output=True, text=True,
+        check=True,
+    )
+    assert "wrapper_status: WARN" in result.stdout
+    assert "hollow_verifiers:" in result.stdout

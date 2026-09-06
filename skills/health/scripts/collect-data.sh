@@ -943,7 +943,7 @@ print(f'servers({count}):', ', '.join(safe_names))
 if count > 20:
     print('server_names_truncated:', count - 20)
 est = count * 25 * 200
-print(f'est_tokens: ~{est} ({round(est/2000)}% of 200K)')
+print(f'est_tokens: ~{est} (inventory estimate: 25 tools/server x 200 tokens/tool; actual loaded cost unknown)')
 
 print('=== MCP FILESYSTEM ===')
 if isinstance(servers, list):

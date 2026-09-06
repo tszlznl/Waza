@@ -167,7 +167,7 @@ bash "$CHECKER" "$wrapper" summary >"$tmpdir/wrapper.out"
 grep -q '^verification_status: PASS$' "$tmpdir/wrapper.out"
 grep -A8 '^verifier_evidence:$' "$tmpdir/wrapper.out" | grep -q './scripts/check.sh --no-format'
 grep -q '^wrapper_status: WARN$' "$tmpdir/wrapper.out"
-grep -q 'multiple verification commands discovered but Makefile lacks check/test/verify wrapper' "$tmpdir/wrapper.out"
+grep -q 'check documented or native entrypoints before recommending a wrapper' "$tmpdir/wrapper.out"
 
 # Case 8: broken markdown link in deep mode -> WARN with named source.
 links="$tmpdir/links"
