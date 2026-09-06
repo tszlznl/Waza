@@ -119,4 +119,4 @@ When it reads clean from start to finish, the draft is ready for the user to pub
 
 ## Output
 
-The artifact is the mode's exit from the table above. Report the saved path when files were written, then stop at the user's publish confirmation.
+The artifact is the mode's exit from the table above. Report the saved path when files were written and complete the authorized handoff; publication requires an explicit request as stated in Hard Rules.
